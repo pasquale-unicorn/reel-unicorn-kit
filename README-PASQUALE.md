@@ -11,7 +11,7 @@
 | `impara/` | report sullo stile di Mary, diario, glossario sottotitoli, cartella dove Mary salva i reel finiti |
 
 ## Cosa devi fare tu con Mary (una volta, ~20 minuti)
-1. Mandale la cartella (zip o, meglio, repository git privato: vedi sotto). Lei la mette in **Documenti**.
+1. Repository privato: https://github.com/pasquale-unicorn/reel-unicorn-kit — invita Mary come collaboratrice (serve il suo username GitHub).
 2. Lei apre Claude Code nella cartella e scrive "installa il kit". Il primo pezzo che può chiederle la password è Homebrew.
 3. **Parte B di INSTALLA.md insieme**: UXP Developer Tools da Creative Cloud, modalità sviluppatore in Premiere, Load del plugin, Connect.
 4. Prova finale su un'ora di live (Parte C).

@@ -3,6 +3,9 @@
 Esegui nell'ordine. Spiega a Mary ogni passo in una riga. Se un passo fallisce, fermati e spiega l'errore in parole semplici.
 
 ## Parte A — automatica (Claude)
+0. Se il kit non è ancora sul Mac: `gh auth status` (se non autenticato: `brew install gh` poi chiedi a Mary `! gh auth login`,
+   scegliendo GitHub.com > HTTPS > login col browser), poi `gh repo clone pasquale-unicorn/reel-unicorn-kit ~/Documents/reel-unicorn-kit`
+   e lavora da quella cartella.
 1. Controlla di essere su macOS e che il kit sia in una posizione stabile (es. `~/Documents/reel-unicorn-kit`, NON in Download o sul
    Desktop se Mary lo pulisce spesso). Se è in Download, proponi di spostarlo prima di installare: i percorsi vengono registrati.
 2. Lancia `bash install.sh` dalla cartella del kit (ci mette 5-15 minuti: scarica whisper e alcune librerie).
@@ -31,3 +34,8 @@ Ogni volta che Premiere si riapre: UXP Developer Tools > Load, poi Connect nel p
 - Cartella delle musiche Artlist e degli effetti (whoosh "Transition Complex 14", riser, boom): annota i percorsi in
   `impara/diario.md` così Claude li propone in ogni scheda.
 - Il preset Lumetri e il preset voce "Dialogo" che usa: restano in Premiere, Claude li cita nella consegna.
+
+## Aggiornare il kit ("aggiorna il kit")
+Dalla cartella del kit: `git pull --rebase` poi `bash install.sh` (aggiunge quello che manca). I miglioramenti di Mary
+(`impara/`, `references/stile-mary.md`) si inviano con `git add impara skills/reel-unicorn/references && git commit -m "impara: <cosa>" && git push`.
+Mai caricare video o progetti pesanti: `impara/progetti/` tiene solo .prproj e i .json dell'analisi.
