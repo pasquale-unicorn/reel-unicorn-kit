@@ -16,7 +16,7 @@ Ricavato da 4 progetti Premiere di Mary (report completi in `impara/REPORT-*.md`
 | Sottotitoli | nativi Premiere, Montserrat Bold, 4-5 parole, ~1,4 s, 1-2 righe con a capo a mano, trascrizione corretta a mano. Nessun titolo/callout/forma |
 | Voce | Enhance Speech v2 + preset Essential Sound "Dialogo" (stesso compressore in tutti i progetti), gain +5/+8 dB |
 | Audio sui tagli | dissolvenza Constant Power 4 frame su OGNI taglio della voce |
-| Musica | Artlist, Remix alla durata, livello fisso (-20/-26 dB, da riverificare), nessun ducking, fade-out 2-3 s |
+| Musica | Artlist, Remix alla durata, livello fisso (generatore: -24 dB; valore esatto di Mary da riverificare), nessun ducking, fade-out 2-3 s |
 | SFX | 1 whoosh "Transition Complex 14" al 160% sul taglio dell'hook; riser solo a volte, culmina sul taglio |
 
 ## Variabili (dipendono dalla ripresa)

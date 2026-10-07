@@ -9,12 +9,17 @@ def tosec(t):
     while len(p) < 3: p.insert(0, 0.0)
     return p[0] * 3600 + p[1] * 60 + p[2]
 
+TC = r"\[?\*?\(?(\d{1,2}:\d{2}(?::\d{2})?(?:[.,]\d+)?)\)?\*?\]?"
 def parse_md(txt):
+    """Righe '*MM:SS*' seguite dal testo, oppure '[00:01:02] testo' / '00:01:02 testo' sulla stessa riga."""
     out, cur = [], None
     for line in txt.splitlines():
-        m = re.match(r"^\*?(\d{1,2}:\d{2}(?::\d{2})?)\*?\s*$", line.strip())
+        l = line.strip()
+        m = re.match(r"^" + TC + r"\s*$", l)
         if m: cur = tosec(m.group(1)); continue
-        if cur is not None and line.strip(): out.append((cur, line.strip()))
+        m = re.match(r"^" + TC + r"\s*[-–:]?\s*(.+)$", l)
+        if m and ":" in m.group(1): out.append((tosec(m.group(1)), m.group(2))); cur = tosec(m.group(1)); continue
+        if cur is not None and l: out.append((cur, l))
     return out
 
 def parse_srt(txt):
@@ -32,7 +37,9 @@ def hms(s): s = int(s); return f"{s // 3600:02d}:{s % 3600 // 60:02d}:{s % 60:02
 if __name__ == "__main__":
     path = sys.argv[1]; blk = float(sys.argv[2]) if len(sys.argv) > 2 else 20
     txt = open(path, encoding="utf-8", errors="ignore").read()
-    rows = parse_srt(txt) if path.lower().endswith(".srt") or "-->" in txt[:2000] else parse_md(txt)
+    rows = parse_srt(txt) if path.lower().endswith((".srt", ".vtt")) or "-->" in txt[:2000] else parse_md(txt)
+    if not rows:
+        sys.exit("ERRORE: nessun timecode riconosciuto. Formati: .srt/.vtt, righe '*MM:SS*', '[HH:MM:SS] testo'. Mostra a Claude le prime righe del file.")
     buckets = {}
     for t, w in rows: buckets.setdefault(int(t // blk), []).append(w)
     for k in sorted(buckets): print(f"[{hms(k * blk)}] {' '.join(buckets[k])}")

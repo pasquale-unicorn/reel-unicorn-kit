@@ -27,6 +27,20 @@ PIP_CY = PIP_T + PIP_H / 2                          # centro verticale finestra 
 # UNITÀ CENTRO (calibrato 2026-10-06, 2 test): horiz/vert = frazione di LARGHEZZA/ALTEZZA NATIVE della clip (video 1920x1080, testi 1080x1920).
 T_IN = 7                                            # frame di apertura/chiusura takeover
 
+def configure(fps, w, h):
+    """Adatta il generatore alla sorgente reale (24/25/30, 23.976/29.97, 1080p/4K)."""
+    global FPS, SRC_W, SRC_H, BASE, RATE, NTSC
+    NTSC = abs(fps - round(fps)) > 0.01
+    FPS = int(round(fps)); SRC_W, SRC_H = w, h; BASE = SH / SRC_H * 100
+    RATE = f"<rate><timebase>{FPS}</timebase><ntsc>{'TRUE' if NTSC else 'FALSE'}</ntsc></rate>"
+
+def probe(path):
+    import subprocess, json as _j
+    o = _j.loads(subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries",
+        "stream=width,height,r_frame_rate:format=duration", "-of", "json", path], capture_output=True, text=True).stdout)
+    st = o["streams"][0]; a, b = st["r_frame_rate"].split("/")
+    return float(a) / float(b), int(st["width"]), int(st["height"]), float(o["format"]["duration"])
+
 def fr(s): return int(round(s * FPS))
 def url(p): return "file://localhost" + urllib.parse.quote(p)
 def ascii_(t): return unicodedata.normalize("NFKD", t).encode("ascii", "ignore").decode()

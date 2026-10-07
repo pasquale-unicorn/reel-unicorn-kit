@@ -7,13 +7,15 @@
 3. In Claude: leggere la risorsa MCP `config://get_instructions` del server `premiere`, poi `get_project_info`.
    Se risponde "Could not connect": il pannello non è su Connect. Se "Cannot read properties of null (reading 'name')": plugin
    non aggiornato, ricaricarlo da UXP Developer Tools (il kit ne contiene una versione corretta).
-4. Le risposte dei tool sono enormi (tutto il progetto): leggerle con un piccolo script Python sul file salvato, cercando solo la sequenza che serve.
+4. Le risposte dei tool sono enormi (tutto il progetto): Claude Code le salva in un file e ne stampa il percorso nell'errore
+   "result exceeds maximum allowed tokens". Leggere QUEL file con un piccolo script Python (json dopo la prima `{`) cercando solo la sequenza che serve.
+5. Progetto: lavorare nel progetto Premiere che indica Mary (di solito quello della live). Mai crearne uno nuovo senza chiedere.
 
 ## Regole d'oro
 - `save_project` PRIMA di ogni `import_media`. **Un XML per chiamata** (tre insieme = crash).
 - Nome sequenza = nome nell'XML. Reimportare con lo stesso nome = duplicato: usare v2, v3...
 - `export_frame` scrive in `percorso.png.png` se il nome finisce in .png: dare il percorso e cercare il file reale.
-- Dopo l'import: `set_active_sequence` + 3-4 `export_frame` e GUARDARLI (testa tagliata? sottotitoli visibili? bande nere?).
+- Dopo l'import: `set_active_sequence` + `export_frame` a 4 istanti (hook, 1/3, 2/3, finale) e GUARDARLI (testa tagliata? sottotitoli visibili? bande nere?).
 - Il MCP NON sa: cancellare/rinominare item, keyframe, testi, Lumetri, Essential Sound, velocità. Tutto questo va nell'XML o lo fa Mary.
 
 ## XML xmeml: cosa passa (calibrato)

@@ -17,8 +17,8 @@ def faces(img):
     out += [(img.shape[1] - x - w, y, w, h) for x, y, w, h in PROF.detectMultiScale(cv2.flip(g, 1), 1.1, 5, minSize=(40, 40))]
     return out
 
-def center(src, t_in, t_out, default, min_w=50):
-    tmp = tempfile.mkdtemp(); pts = []
+def center(src, t_in, t_out, default, min_w=50, src_w=1920):
+    tmp = tempfile.mkdtemp(); pts = []; k = src_w / 960
     for t in (t_in + 0.25, (t_in + t_out) / 2, max(t_in + 0.25, t_out - 0.25)):
         try: img = grab(src, t, os.path.join(tmp, "f.jpg"))
         except Exception: continue
@@ -26,7 +26,7 @@ def center(src, t_in, t_out, default, min_w=50):
         fs = [f for f in faces(img) if f[2] >= min_w]
         if fs:
             x, y, w, h = max(fs, key=lambda f: f[2] * f[3])
-            pts.append(((x + w / 2) * 2, (y + h / 2) * 2))     # scala 960 -> 1920
+            pts.append(((x + w / 2) * k, (y + h / 2) * k))     # fotogramma ridotto a 960 px -> pixel sorgente
     if not pts: return default, 0
     arr = np.array(pts); return (float(np.median(arr[:, 0])), float(np.median(arr[:, 1]))), len(pts)
 

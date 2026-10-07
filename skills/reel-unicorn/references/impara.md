@@ -4,7 +4,7 @@ Il preset vive in `references/stile-mary.md` e nel glossario `impara/glossario.j
 
 ## Dopo ogni reel finito da Mary (2 minuti)
 1. Mary salva il progetto Premiere finito (o una sua copia) in `impara/progetti/AAAA-MM-GG-nome.prproj`.
-2. Claude lancia `python3 scripts/analizza_prproj.py impara/progetti/<file> --json impara/progetti/<file>.json`.
+2. Claude lancia `PY S/analizza_prproj.py <kit>/impara/progetti/<file> --json <kit>/impara/progetti/<file>.json` (kit = percorso in `~/.reel-unicorn/kit-path`).
 3. Claude confronta i numeri con la bozza che aveva consegnato (stessa sequenza, versione Claude) e scrive in `impara/diario.md`:
    data, reel, cosa Mary ha cambiato (tagli spostati/aggiunti, clip tolte, scale, sottotitoli corretti, musica), e UNA ipotesi di regola.
 4. Le correzioni ai sottotitoli fatte da Mary → `impara/glossario.json` (subito, valgono dal reel successivo).

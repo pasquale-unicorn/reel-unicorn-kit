@@ -1,23 +1,49 @@
 #!/usr/bin/env python3
-"""Sequenza Premiere 9:16 EDITABILE in STILE MARY (ricavato dai suoi progetti, vedi analisi_mary/REPORT-*.md).
+"""Sequenza Premiere 9:16 EDITABILE in STILE MARY (ricavato dai suoi progetti: impara/REPORT-*.md, preset in references/stile-mary.md).
 
 Grammatica Mary:
 - ritmo: clip 1-5 s (mediana ~2,4), pause tagliate, nessun taglio > 3,5 s senza uno stacco di scala
 - hook anticipato: la frase più forte all'inizio, poi il reel riparte in ordine cronologico (la frase si ripete al suo posto)
 - inquadratura "split": V2 formatore a scala alta (piano americano, bordo basso del sorgente a ~1690 px), V1 stessa sorgente
   a scala maggiore che riempie la fascia bassa con la platea. Nessun keyframe: punch-in STATICI alternati al taglio
-- una sola transizione video dopo l'hook (da aggiungere via MCP: Whip), tutti gli altri tagli secchi
+- tutti tagli secchi; la transizione dopo l'hook (Mister Horse) la mette Mary: non passa in XML
 - testo: solo sottotitoli nativi a frase (4-7 parole, ~1,5 s), Montserrat Bold, nessun titolo/callout
-- audio: voce +8 dB, musica a -26 dB fissa, riser che culmina sul taglio dell'hook, whoosh sul taglio
-- colore: Lumetri fisso (Temp -11, Tinta +8, Contrasto +29, Luci +68) -> NON passa in XML, Mary lo applica col suo preset
+- audio: voce +8 dB, musica fissa (default -24 dB), riser che culmina sul taglio dell'hook, whoosh sul taglio
+- colore: Lumetri NON passa in XML; Mary lo regola sulla luce della sala
 
 Uso: python3 reel_xml_mary.py scheda.json [cartella_output]
 """
 import json, os, re, sys, uuid, wave
 import reel_xml2 as R
 
-FPS, SW, SH, SRC_W, SRC_H = R.FPS, R.SW, R.SH, R.SRC_W, R.SRC_H
-fr, url, esc, RATE = R.fr, R.url, R.esc, R.RATE
+SW, SH = R.SW, R.SH
+url, esc = R.url, R.esc
+def fr(s): return R.fr(s)
+FPS = SRC_W = SRC_H = RATE = None   # impostati da setup_source() leggendo il video
+
+def setup_source(spec):
+    global FPS, SRC_W, SRC_H, RATE
+    fps, w, h, dur = R.probe(spec["source"])
+    R.configure(fps, w, h)
+    FPS, SRC_W, SRC_H, RATE = R.FPS, R.SRC_W, R.SRC_H, R.RATE
+    spec.setdefault("source_duration_s", dur)
+    if (w, h) != (1920, 1080) or FPS != 24: print(f"nota: sorgente {w}x{h} a {fps:.3f} fps (adattato)")
+
+def load_glossary(spec):
+    """Glossario del kit (impara/glossario.json) + correzioni della scheda (la scheda vince)."""
+    p = os.path.join(R.KIT, "impara", "glossario.json")
+    g = json.load(open(p, encoding="utf-8")) if os.path.exists(p) else {}
+    spec["glossary"] = {**g.get("parole", {}), **spec.get("glossary", {})}
+    spec["text_fix"] = {**g.get("frasi", {}), **spec.get("text_fix", {})}
+
+def as_wav(path):
+    """Artlist dà anche MP3: converte una volta in WAV accanto all'originale."""
+    if not path or path.lower().endswith(".wav"): return path
+    out = os.path.splitext(path)[0] + ".reel.wav"
+    if not os.path.exists(out):
+        import subprocess
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", path, "-ar", "48000", "-ac", "2", out], check=True)
+    return out
 FONT_SUB = "Montserrat-Bold"
 BAND = 230            # fascia bassa con la platea (px)
 PUNCH = [1.0, 1.3]    # alternanza: base 177,78 / punch-in ~231 (Mary luglio-settembre: 213-276)
@@ -93,6 +119,8 @@ def split_long(segs, winwords, maxlen, gap_soft):
 
 
 def build(spec, out_dir):
+    setup_source(spec); load_glossary(spec)
+    for k in ("music", "riser", "whoosh"): spec[k] = as_wav(spec.get(k))
     src, src_dur = spec["source"], int(round(spec["source_duration_s"] * FPS))
     winwords = R.load_words(spec)
     segs = R.fine_segments(spec, winwords)
@@ -102,13 +130,14 @@ def build(spec, out_dir):
     if hk:
         w = next(w for w in spec["windows"] if w["src_in"] <= hk[0] <= w["src_out"])
         segs = [{"in": hk[0], "out": hk[1], "cx": w["cx"], "cy": w["cy"], "label": "HOOK " + w.get("label", ""), "hook": True}] + segs
-    for i, s in enumerate(segs): s["punch"] = PUNCH[i % 2]
+    for i, s in enumerate(segs):
+        s["punch"] = PUNCH[i % 2]; s.setdefault("cx", SRC_W / 2); s.setdefault("cy", SRC_H * 0.37)
     if len(segs) > 2: segs[-1]["punch"] = PUNCH_CLIMAX
     # viso per clip (= Auto Reframe statico di Mary)
     if spec.get("autoface"):
         import face_center
         for sg in segs:
-            (fx, fy), n = face_center.center(spec["source"], sg["in"], sg["out"], (sg["cx"], sg["cy"]))
+            (fx, fy), n = face_center.center(spec["source"], sg["in"], sg["out"], (sg.get("cx", SRC_W / 2), sg.get("cy", SRC_H * 0.37)), src_w=SRC_W)
             sg["fx"], sg["fy"], sg["face_n"] = fx, fy, n
     tmap = R.TimeMap(segs)
     hook_end = fr(hk[1] - hk[0]) if hk else 0
@@ -170,7 +199,7 @@ def build(spec, out_dir):
         music = (f'<clipitem id="mus" premiereChannelType="stereo"><name>MUSICA</name><enabled>TRUE</enabled><duration>{wdur(p)}</duration>{RATE}'
                  f'<start>{hook_end}</start><end>{hook_end + d}</end><in>0</in><out>{d}</out>{afile("f-mus", p, wdur(p))}'
                  f'<sourcetrack><mediatype>audio</mediatype><trackindex>1</trackindex></sourcetrack>'
-                 f'{level_filter(db(spec.get("music_db", -26)), [(0, 0.0), (6, db(spec.get("music_db", -26))), (d - 24, db(spec.get("music_db", -26))), (d, 0.0)])}</clipitem>')
+                 f'{level_filter(db(spec.get("music_db", -24)), [(0, 0.0), (6, db(spec.get("music_db", -24))), (d - 24, db(spec.get("music_db", -24))), (d, 0.0)])}</clipitem>')
     sfx = ""
     if spec.get("riser") and hk:
         p = spec["riser"]; d = wdur(p); a = max(0, hook_end - d)

@@ -1,9 +1,8 @@
 {
- "_istruzioni": "Copia questo file nella cartella del reel come scheda.json. Tempi in SECONDI della sorgente. Poi: trascrivi_finestre.py scheda.json -> reel_xml_mary.py scheda.json",
+ "_istruzioni": "Copia in <cartella live>/REEL-LAVORO/reel-<slug>/scheda.json. Tempi in SECONDI della sorgente. Poi: PY S/trascrivi_finestre.py scheda.json -> PY S/reel_xml_mary.py scheda.json. source_duration_s, fps e risoluzione li legge lo script.",
  "name": "REEL nome-breve v1",
  "slug": "nome-breve",
  "source": "/percorso/assoluto/EVENTO.mp4",
- "source_duration_s": 11204.08,
  "windows": [
   {
    "src_in": 671.5,
@@ -74,16 +73,10 @@
  "music": "/percorso/musica-artlist.wav",
  "riser": "",
  "whoosh": "/percorso/Transition Complex 14.wav",
- "glossary": {
-  "linguirino": "inquilino",
-  "inquirino": "inquilino",
-  "tremorosità": "tre morosità",
-  "carambiniere": "carabiniere"
- },
- "text_fix": {
-  "IL INQUILINO": "L'INQUILINO",
-  "SU TRATTENERE": "SA TRATTENERE",
-  "PERCH ": "PERCHÉ ",
-  "PERCHÉ ERA": "PERCHÉ ERA"
- }
+ "glossary": {},
+ "text_fix": {},
+ "aud_cx": 960,
+ "aud_cy": 980,
+ "band_scale": 265,
+ "head_top": 90
 }
