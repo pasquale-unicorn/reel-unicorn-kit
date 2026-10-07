@@ -5,13 +5,13 @@ e, su quelli che approvi, prepara le bozze dei reel **direttamente in Premiere**
 (ritmo, hook anticipato, punch-in, sottotitoli Montserrat). Tu rifinisci ed esporti.
 
 ## Installazione (una volta)
-1. Accetta l'invito di Pasquale al repository GitHub (arriva per email; serve un account GitHub gratuito).
-2. Apri **Claude Code** nella cartella **Documenti** e scrivi:
+1. Apri **Claude Code** nella cartella **Documenti** e scrivi:
    **installa il kit da https://github.com/pasquale-unicorn/reel-unicorn-kit**
-3. Claude scarica la cartella e installa tutto da solo. Quando finisce, con Pasquale si fa l'ultimo passo in Premiere (5 minuti).
+2. Claude scarica la cartella e installa tutto da solo. Quando finisce, con Pasquale si fa l'ultimo passo in Premiere (5 minuti).
 
 ## Aggiornamenti
-Scrivi "aggiorna il kit": Claude scarica le novità di Pasquale e carica i tuoi miglioramenti (diario, glossario, stile).
+Scrivi "aggiorna il kit": Claude scarica le novità di Pasquale. Per inviare i tuoi miglioramenti (diario, glossario, stile) serve un
+account GitHub aggiunto da Pasquale come collaboratore: si fa una volta, quando vuoi.
 
 ## Come si usa
 - "Ecco la live di ieri: [video] e [trascrizione]. Trovami i momenti per i reel."

@@ -3,9 +3,8 @@
 Esegui nell'ordine. Spiega a Mary ogni passo in una riga. Se un passo fallisce, fermati e spiega l'errore in parole semplici.
 
 ## Parte A — automatica (Claude)
-0. Se il kit non è ancora sul Mac: `gh auth status` (se non autenticato: `brew install gh` poi chiedi a Mary `! gh auth login`,
-   scegliendo GitHub.com > HTTPS > login col browser), poi `gh repo clone pasquale-unicorn/reel-unicorn-kit ~/Documents/reel-unicorn-kit`
-   e lavora da quella cartella.
+0. Se il kit non è ancora sul Mac: `git clone https://github.com/pasquale-unicorn/reel-unicorn-kit.git ~/Documents/reel-unicorn-kit`
+   (repository pubblico, nessun login) e lavora da quella cartella. Il login GitHub (`! gh auth login`) serve solo per inviare miglioramenti.
 1. Controlla di essere su macOS e che il kit sia in una posizione stabile (es. `~/Documents/reel-unicorn-kit`, NON in Download o sul
    Desktop se Mary lo pulisce spesso). Se è in Download, proponi di spostarlo prima di installare: i percorsi vengono registrati.
 2. Lancia `bash install.sh` dalla cartella del kit (ci mette 5-15 minuti: scarica whisper e alcune librerie).
