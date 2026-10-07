@@ -1,0 +1,14 @@
+{
+ "_nota": "Correzioni ai sottotitoli. 'parole': una parola sbagliata di whisper -> giusta (minuscolo). 'frasi': testo maiuscolo del cartello -> giusto. Copiare nella scheda del reel (glossary / text_fix) e aggiungere ogni nuova correzione di Mary.",
+ "parole": {
+  "linguirino": "inquilino",
+  "inquirino": "inquilino",
+  "tremorosità": "tre morosità",
+  "carambiniere": "carabiniere"
+ },
+ "frasi": {
+  "IL INQUILINO": "L'INQUILINO",
+  "SU TRATTENERE": "SA TRATTENERE",
+  "SOTTO TRATTENERE": "SA TRATTENERE"
+ }
+}

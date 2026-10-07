@@ -1,0 +1,89 @@
+{
+ "_istruzioni": "Copia questo file nella cartella del reel come scheda.json. Tempi in SECONDI della sorgente. Poi: trascrivi_finestre.py scheda.json -> reel_xml_mary.py scheda.json",
+ "name": "REEL nome-breve v1",
+ "slug": "nome-breve",
+ "source": "/percorso/assoluto/EVENTO.mp4",
+ "source_duration_s": 11204.08,
+ "windows": [
+  {
+   "src_in": 671.5,
+   "src_out": 681.0,
+   "whisper": "(lo scrive trascrivi_finestre.py)",
+   "cx": 1114,
+   "cy": 390,
+   "label": "pagano l'affitto"
+  },
+  {
+   "src_in": 698.55,
+   "src_out": 705.55,
+   "whisper": "(lo scrive trascrivi_finestre.py)",
+   "cx": 1152,
+   "cy": 350,
+   "label": "12000 contratti"
+  },
+  {
+   "src_in": 713.3,
+   "src_out": 734.2,
+   "whisper": "(lo scrive trascrivi_finestre.py)",
+   "cx": 1152,
+   "cy": 390,
+   "label": "telegiornale 50%"
+  },
+  {
+   "src_in": 741.6,
+   "src_out": 747.6,
+   "whisper": "(lo scrive trascrivi_finestre.py)",
+   "cx": 1152,
+   "cy": 350,
+   "label": "carabiniere"
+  },
+  {
+   "src_in": 757.3,
+   "src_out": 762.65,
+   "whisper": "(lo scrive trascrivi_finestre.py)",
+   "cx": 1114,
+   "cy": 390,
+   "label": "strumenti"
+  },
+  {
+   "src_in": 766.4,
+   "src_out": 776.9,
+   "whisper": "(lo scrive trascrivi_finestre.py)",
+   "cx": 960,
+   "cy": 350,
+   "label": "trattenere il denaro"
+  }
+ ],
+ "hook_src": [
+  698.55,
+  701.65
+ ],
+ "layout": "single",
+ "autoface": true,
+ "gap": 0.3,
+ "pad": 0.06,
+ "max_clip": 3.5,
+ "sub_words": 5,
+ "sub_size": 60,
+ "sub_y": 0.8,
+ "sub_maxc": 22,
+ "voice_db": 8,
+ "music_db": -24,
+ "riser_db": -20,
+ "whoosh_db": -14,
+ "music": "/percorso/musica-artlist.wav",
+ "riser": "",
+ "whoosh": "/percorso/Transition Complex 14.wav",
+ "glossary": {
+  "linguirino": "inquilino",
+  "inquirino": "inquilino",
+  "tremorosità": "tre morosità",
+  "carambiniere": "carabiniere"
+ },
+ "text_fix": {
+  "IL INQUILINO": "L'INQUILINO",
+  "SU TRATTENERE": "SA TRATTENERE",
+  "PERCH ": "PERCHÉ ",
+  "PERCHÉ ERA": "PERCHÉ ERA"
+ }
+}

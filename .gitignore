@@ -1,0 +1,8 @@
+vendor/adb-mcp/adb-proxy-socket/node_modules/
+skills/reel-unicorn/mg/fonts/
+skills/reel-unicorn/mg/scenes2/
+skills/reel-unicorn/mg/renders2/
+__pycache__/
+.DS_Store
+*.mov
+*.mp4
